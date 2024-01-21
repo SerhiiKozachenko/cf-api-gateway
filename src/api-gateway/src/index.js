@@ -3,8 +3,6 @@ import { createCors } from 'itty-router/createCors';
 import { json } from 'itty-router/json';
 import { error } from 'itty-router/error';
 
-import apiRouter from './router';
-
 const { preflight, corsify } = createCors({
 	methods: ['GET', 'HEAD', 'PATCH', 'POST', 'PUT', 'DELETE'],
 	origins: ['*'],
