@@ -1,0 +1,14 @@
+{
+  "name": "api-gateway",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "dev": "wrangler dev",
+    "start": "wrangler dev"
+  },
+  "devDependencies": {
+    "itty-router": "^4.0.11",
+    "wrangler": "^3.0.0"
+  }
+}
