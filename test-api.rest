@@ -1,0 +1,35 @@
+
+###
+
+GET http://localhost:8787/__@dm1n__/routes HTTP/1.1
+
+###
+
+POST http://localhost:8787/__@dm1n__/routes HTTP/1.1
+content-type: application/json
+
+{
+  "route": "/photos",
+  "method": "get",
+  "handler": "proxy",
+  "auth": "jwt",
+  "rate_limit": "none",
+  "circuit_breaker": "none",
+  "proxy": {
+    "url": "https://jsonplaceholder.typicode.com/photos",
+    "method": "get",
+    "auth": "none",
+    "forward_headers": [
+      "X-Request-Id"
+    ]
+  }
+}
+
+###
+
+GET http://localhost:8787/__@dm1n__/routes/%2Fphotos HTTP/1.1
+
+
+###
+
+DELETE http://localhost:8787/__@dm1n__/routes/%2Fphotos HTTP/1.1

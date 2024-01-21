@@ -1,6 +1,7 @@
 import { Router } from 'itty-router/Router';
 import { createCors } from 'itty-router/createCors';
 import { json } from 'itty-router/json';
+import { status } from 'itty-router/status';
 import { error } from 'itty-router/error';
 
 const { preflight, corsify } = createCors({
@@ -12,6 +13,17 @@ const router = Router();
 
 router
 	.all('*', preflight)
+	.get('/__@dm1n__/routes', async (req, env, ctx) => await env.routes.list())
+	.post('/__@dm1n__/routes', async (req, env, ctx) => {
+		const r = await req.json();
+		await env.routes.put(r.route, JSON.stringify(r), { metadata: { method: r.method }});
+		return status(201);
+	})
+	.get('/__@dm1n__/routes/:name', async (req, env, ctx) => await env.routes.get(decodeURIComponent(req.params.name), { type: 'json' }))
+	.delete('/__@dm1n__/routes/:name', async (req, env, ctx) => {
+		await env.routes.delete(decodeURIComponent(req.params.name));
+		return status(204);
+	})
 	.all('/setup', async (req, env, ctx) => {
 		const routesData = [{
 			key: '/todos/:id',
@@ -67,7 +79,6 @@ router
 		}
 
 		return "Setup done!";
-		
 	})
 	.all('/*', async (req, env, ctx) => {
 		const routesData = await env.routes.list();
